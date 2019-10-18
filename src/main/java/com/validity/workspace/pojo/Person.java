@@ -1,7 +1,13 @@
+package com.validity.workspace.pojo;
+
 import java.util.Objects;
+
+import com.validity.workspace.ReadAndProcessCSV.ReadAndProcessCSV;
 
 public class Person {
 
+    //Declaration of Person attributes 
+	private int id;
     private String first_name;
     private String last_name;
     private String company;
@@ -14,7 +20,17 @@ public class Person {
     private String state;
     private String phone;
 
-    public String getFirst_name() {
+    
+    //Getter and setters of attributes
+    public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getFirst_name() {
         return first_name;
     }
 
@@ -101,6 +117,8 @@ public class Person {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
+    
 
 }
 

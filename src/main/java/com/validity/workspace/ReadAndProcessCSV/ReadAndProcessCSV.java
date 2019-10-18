@@ -1,13 +1,22 @@
+package com.validity.workspace.ReadAndProcessCSV;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class ReadCSV {
-    //ArrayList to store each of the parsed row from the csv file
+import com.validity.workspace.pojo.Person;
+
+public class ReadAndProcessCSV {
+	//ArrayList to store each of the parsed row from the csv file
     List<Person> result = new ArrayList<Person>();
     public void readPersonInfo() throws IOException {
+        //Read the csv file from the specified path
         BufferedReader br = new BufferedReader(new FileReader(new File("C:\\\\normal.csv")));
         try {
             // Read first line
@@ -18,13 +27,14 @@ public class ReadCSV {
             }
             // Run through following lines
             while ((line = br.readLine()) != null) {
-                // Break line into entries using comma
+                // Break line into entries using comma and special cases taken care here through regex
                 String[] items = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
                 try {
                     if (items.length>12)
                         throw new ArrayIndexOutOfBoundsException();
                     // Convert data to person record
                     Person person = new Person();
+                    person.setId(Integer.parseInt(items[0]));
                     person.setFirst_name(items[1] );
                     person.setLast_name(items[2] );
                     person.setCompany(items[3].replace("\"",""));
@@ -37,26 +47,22 @@ public class ReadCSV {
                     person.setState(items[10]);
                     person.setPhone(items[11]);
                     result.add(person);
-                } catch (ArrayIndexOutOfBoundsException|NumberFormatException|NullPointerException e) {
+                } catch (ArrayIndexOutOfBoundsException ea) {
                     // Caught errors indicate a problem with data format -> Print warning and continue
                     //System.out.println(e.printStackTrace());
                     System.out.println("Invalid line: "+ line);
+                }
+                catch (NumberFormatException en) {
+                	System.out.println("Invalid line: "+ line);
+                }
+                catch (NullPointerException e) {
+                	System.out.println("Invalid line: "+ line);
                 }
             }
 //            int count = 1;
 //            for(int i=0;i<result.size();i++) {
 //                System.out.println(count);
 //                System.out.print(result.get(i).getFirst_name() + ",");
-//                System.out.print(result.get(i).getLast_name() + ",");
-//                System.out.print(result.get(i).getCompany() + ",");
-//                System.out.print(result.get(i).getEmail() + ",");
-//                System.out.print(result.get(i).getAddress1() + ",");
-//                System.out.print(result.get(i).getAddress2() + ",");
-//                System.out.print(result.get(i).getZip() + ",");
-//                System.out.print(result.get(i).getCity() + ",");
-//                System.out.print(result.get(i).getState_long() + ",");
-//                System.out.print(result.get(i).getState() + ",");
-//                System.out.print(result.get(i).getPhone() + ",");
 //                count++;
 //                System.out.println();
 //            }
@@ -64,8 +70,7 @@ public class ReadCSV {
             br.close();
         }
 
-
     }
 
-
+    
 }
