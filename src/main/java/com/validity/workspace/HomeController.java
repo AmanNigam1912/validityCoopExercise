@@ -30,9 +30,18 @@ public class HomeController {
 	@RequestMapping("/home")
 	public ModelAndView helloWorld() throws IOException {
 		
-		//Call the jsp "home" with a message of "Hello World!"
+		//Create an instance of ReadAndProcessCSV class
+		ReadAndProcessCSV csv = new ReadAndProcessCSV();
+		
+		//This will parse and populate the ArrayList with Person objects	
+		csv.readPersonInfo();
+		
+		//HashMap will store all the duplicates and none duplicates records returned by duplicateORNot method
+		HashMap<Person, ArrayList<Person>> map = csv.duplicateORNot();
+
+		//Call the jsp page "home" with a map variable
 		ModelAndView mv = new ModelAndView("home");
-		mv.addObject("msg","Hello World!!");
+		mv.addObject("map",map);
 		
 		return mv;
 	}

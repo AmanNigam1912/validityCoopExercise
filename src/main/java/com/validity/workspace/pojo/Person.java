@@ -118,7 +118,44 @@ public class Person {
         this.phone = phone;
     }
 
-    
+    //Overriding the equals method to differentiate not only by their identity but also by their properties value  
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        //Leveraging edit distance to compare strings requiring certain number of edits to be equal
+        //can add or remove attributes based on your preference 
+        //currently will display records that are exactly equal on mentioned properties
+        return  ReadAndProcessCSV.editDist(this.getFirst_name(),person.getFirst_name(),this.first_name.length(),person.getFirst_name().length())==0 &&
+                ReadAndProcessCSV.editDist(this.getLast_name(),person.getLast_name(),this.last_name.length(),person.getLast_name().length())==0 &&
+                ReadAndProcessCSV.editDist(this.getCompany(),person.getCompany(),this.company.length(),person.getCompany().length())==0 &&
+                ReadAndProcessCSV.editDist(this.getEmail(),person.getEmail(),this.email.length(),person.getEmail().length())==0 &&
+                //Objects.equals(company, person.company) &&
+                Objects.equals(id, person.id)&&
+                Objects.equals(address1, person.address1) &&
+                Objects.equals(address2, person.address2) &&
+                Objects.equals(zip, person.zip) &&
+                Objects.equals(city, person.city) &&
+                Objects.equals(state_long, person.state_long) &&
+                Objects.equals(state, person.state) &&
+                Objects.equals(phone, person.phone);
+    }
+
+    //overriding hash code as I overrrided equals method(to prevent violation)
+    @Override
+    public int hashCode() {
+        return Objects.hash(id,address1, address2, zip, city, state_long, state, phone);
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "first_name='" + first_name + '\'' +
+                ", last_name='" + last_name + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
 
 }
 

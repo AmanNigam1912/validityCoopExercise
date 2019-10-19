@@ -72,6 +72,38 @@ public class ReadAndProcessCSV {
 
     }
 
+    public HashMap<Person, ArrayList<Person>> duplicateORNot() {
+        //Sort the ArrayList by First_Name
+        Collections.sort(result, new SortByColumn());
+        
+        //HashMap to store person as key and its potential duplicates as value
+        HashMap<Person, ArrayList<Person>> map = new HashMap<Person, ArrayList<Person>>();
+        
+        //Run through each person object in array list 
+        for(Person p: result){
+            //check if they are already present in the array list, if so put them in the value of that key(person)
+            if(map.containsKey(p)){
+                ArrayList<Person> list= map.get(p);
+                list.add(p);
+                map.put(p,list);
+            }
+            //if they are not present, put them in the map with an empty array list as value
+            else{
+                //System.out.println("here");
+                map.put(p,new ArrayList<Person>());
+            }
+        }        
+        
+    //        System.out.println("Potential Duplicates");
+    //        for (Map.Entry<Person,ArrayList<Person>> entry : map.entrySet()){
+    //            if(entry.getValue().size() > 0 ) {
+    //                System.out.println(entry.getKey().getFirst_name());
+    //            }            
+    //        }
+                
+        return map;
+    }
+
     static int min(int x,int y,int z)
     {
         if (x<=y && x<=z) return x;
